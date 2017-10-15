@@ -33,6 +33,7 @@
 	faction = list("carp")
 	movement_type = FLYING
 	pressure_resistance = 200
+	throw_pressure_limit = 300
 	gold_core_spawnable = 1
 
 /mob/living/simple_animal/hostile/carp/Process_Spacemove(movement_dir = 0)

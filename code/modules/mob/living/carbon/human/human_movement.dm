@@ -11,8 +11,6 @@
 
 /mob/living/carbon/human/experience_pressure_difference()
 	playsound(src, 'sound/effects/space_wind.ogg', 50, 1)
-	if(shoes && shoes.flags_1&NOSLIP_1)
-		return 0
 	return ..()
 
 /mob/living/carbon/human/mob_has_gravity()

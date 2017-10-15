@@ -24,6 +24,7 @@
 	faction = list("cult")
 	movement_type = FLYING
 	pressure_resistance = 100
+	throw_pressure_limit = 150
 	unique_name = 1
 	AIStatus = AI_OFF //normal constructs don't have AI
 	loot = list(/obj/item/ectoplasm)

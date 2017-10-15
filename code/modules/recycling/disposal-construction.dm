@@ -10,6 +10,7 @@
 	anchored = FALSE
 	density = FALSE
 	pressure_resistance = 5*ONE_ATMOSPHERE
+	throw_pressure_limit = 7*ONE_ATMOSPHERE
 	level = 2
 	max_integrity = 200
 	var/ptype = 0

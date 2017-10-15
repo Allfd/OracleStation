@@ -245,7 +245,7 @@ GLOBAL_VAR(iceoverlaymaster)
 
 	if(air.temperature < T0C && air.return_pressure() > 0.1)
 		icy = TRUE
-	else
+	else if(air.temperature > T0C)
 		icy = FALSE
 
 	update_visuals()
@@ -273,6 +273,7 @@ GLOBAL_VAR(iceoverlaymaster)
 		M.experience_pressure_difference(pressure_difference, pressure_direction)
 
 /atom/movable/var/pressure_resistance = 10
+/atom/movable/var/throw_pressure_limit = 15
 /atom/movable/var/last_high_pressure_movement_air_cycle = 0
 
 /atom/movable/proc/experience_pressure_difference(pressure_difference, direction, pressure_resistance_prob_delta = 0)
@@ -284,12 +285,20 @@ GLOBAL_VAR(iceoverlaymaster)
 		. = 1
 		if (last_high_pressure_movement_air_cycle < SSair.times_fired)
 			var/move_prob = 100
-			if (pressure_resistance > 0)
-				move_prob = (pressure_difference/pressure_resistance*PROBABILITY_BASE_PRECENT)-PROBABILITY_OFFSET
-			move_prob += pressure_resistance_prob_delta
-			if (move_prob > PROBABILITY_OFFSET && prob(move_prob))
-				step(src, direction)
+			if (pressure_difference >= throw_pressure_limit)
+				var/general_direction = get_edge_target_turf(src, direction)
+				if(last_high_pressure_movement_air_cycle + 10 < SSair.times_fired) //the first check prevents spamming throw to_chat
+					to_chat(src, "<span class='userdanger'>The pressure sends you flying!</span>")
+				spawn()
+					throw_at(general_direction, pressure_difference / 10, pressure_difference / 200, null, 0, 0, null)
 				last_high_pressure_movement_air_cycle = SSair.times_fired
+			else
+				if (pressure_resistance > 0)
+					move_prob = (pressure_difference/pressure_resistance*PROBABILITY_BASE_PRECENT)-PROBABILITY_OFFSET
+				move_prob += pressure_resistance_prob_delta
+				if (move_prob > PROBABILITY_OFFSET && prob(move_prob))
+					step(src, direction)
+					last_high_pressure_movement_air_cycle = SSair.times_fired
 
 ///////////////////////////EXCITED GROUPS/////////////////////////////
 

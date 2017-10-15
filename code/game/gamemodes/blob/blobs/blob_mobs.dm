@@ -101,6 +101,8 @@
 	var/mob/living/carbon/human/oldguy
 	var/is_zombie = 0
 	gold_core_spawnable = 1
+	pressure_resistance = 100    //100 kPa difference required to push
+	throw_pressure_limit = 120  //120 kPa difference required to throw
 
 /mob/living/simple_animal/hostile/blob/blobspore/Initialize(mapload, var/obj/structure/blob/factory/linked_node)
 	if(istype(linked_node))
@@ -140,6 +142,8 @@
 	oldguy = H
 	update_icons()
 	visible_message("<span class='warning'>The corpse of [H.name] suddenly rises!</span>")
+	pressure_resistance = 20
+	throw_pressure_limit = 30
 
 /mob/living/simple_animal/hostile/blob/blobspore/death(gibbed)
 	// On death, create a small smoke of harmful gas (s-Acid)
@@ -216,7 +220,8 @@
 	verb_exclaim = "roars"
 	verb_yell = "bellows"
 	force_threshold = 10
-	pressure_resistance = 50
+	pressure_resistance = 100
+	throw_pressure_limit = 120
 	mob_size = MOB_SIZE_LARGE
 	see_in_dark = 8
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
